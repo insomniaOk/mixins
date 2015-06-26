@@ -1,0 +1,157 @@
+
+// mixins
+.border-radius (@radius: 2px) {
+	border-radius: @radius;
+	-webkit-border-radius: @radius;
+	-moz-border-radius: @radius;
+}
+
+// пример использованеия для нескольких теней .box-shadow (~"inset 0px 1px 0px red, 0px 0px 5px #aaa");
+// занчение теней переводим в строку
+.box-shadow (@shadow: 0 2px 1px 0 #215073) {
+	box-shadow: @arguments;
+	-moz-box-shadow: @arguments;
+	-webkit-box-shadow: @arguments;
+}
+
+// Horizontal gradient, from left to right
+.horizontal-gradient(@start-color: #1e5799, @end-color: #4b74b0, @start-percent: 0%, @end-percent: 100%) {
+	background-color: @start-color;
+	background-image:  linear-gradient(to right, @start-color @start-percent, @end-color @end-percent);
+	background-image: -webkit-linear-gradient(left, color-stop(@start-color @start-percent), color-stop(@end-color @end-percent)); /* Chrome10+,Safari5.1+ */
+	background-image: -o-linear-gradient(top, @start-color @start-percent, @end-color @end-percent); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, @start-color @start-percent, @end-color @end-percent);
+	background-repeat: repeat-x;
+}
+
+// Vertical gradient, from top to bottom
+.vertical-gradient(@start-color: #1e5799, @end-color: #4b74b0, @start-percent: 0%, @end-percent: 100%) {
+	background-color: @start-color; /* Old browsers */
+	background-image: -moz-linear-gradient(top, @start-color @start-percent, @end-color @end-percent); /* FF3.6+ */
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(@start-percent,@start-color), color-stop(@end-percent,@end-color)); /* Chrome,Safari4+ */
+	background-image: -webkit-linear-gradient(top, @start-color @start-percent,@end-color @end-percent); /* Chrome10+,Safari5.1+ */
+	background-image: -o-linear-gradient(top, @start-color @start-percent,@end-color @end-percent); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, @start-color @start-percent,@end-color @end-percent); /* IE10+ */
+	background-image: linear-gradient(to bottom, @start-color @start-percent,@end-color @end-percent); /* W3C */
+}
+
+.size(@width, @height) {
+	width: @width;
+	height: @height;
+}
+
+.square(@size) {
+	.size(@size, @size);
+}
+
+// Placeholder
+.placeholder(@color) {
+	&:-moz-placeholder            { color: @color; } // Firefox 4-18
+	&::-moz-placeholder           { color: @color; } // Firefox 19+
+	&:-ms-input-placeholder       { color: @color; } // Internet Explorer 10+
+	&::-webkit-input-placeholder  { color: @color; } // Safari and Chrome
+}
+
+// Box sizing
+.box-sizing(@boxmodel: border-box) {
+	-webkit-box-sizing: @boxmodel;
+	-moz-box-sizing: @boxmodel;
+	box-sizing: @boxmodel;
+}
+
+// text columns
+.column(@count: 3, @gap: 1em) {
+	-webkit-column-count: @count; -webkit-column-gap: @gap;
+	-moz-column-count: @count;    -moz-column-gap: @gap;
+	column-count: @count;         column-gap: @gap;
+}
+
+// Opacity
+.opacity(@opacity) {
+	opacity: @opacity;
+	-moz-opacity: @opacity;
+	// IE8 filter
+	@opacity-ie: (@opacity * 100);
+	filter: ~"alpha(opacity=@{opacity-ie})";
+}
+
+// Transition
+.transition(@property: all, @duration:0.2s, @ease:ease-out) {
+	-webkit-transition: @arguments;
+	-moz-transition: @arguments;
+	-o-transition: @arguments;
+	transition: @arguments;
+}
+
+// Truncating text
+.text-overflow() {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+// text shadow
+.text-shadow(@text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75)){
+	-webkit-text-shadow: @text-shadow;
+	-moz-text-shadow: @text-shadow;
+	text-shadow: @text-shadow;
+}
+
+// transformation
+.transform(@value) {
+	-webkit-transform: @value;
+	-moz-transform: @value;
+	-ms-transform: @value;
+	-o-transform: @value;
+	transform: @value;
+}
+
+// CSS rule to disable text selection highlighting
+.user-select (@val) {
+	-webkit-touch-callout:  @val;
+	-webkit-user-select:    @val;
+	-khtml-user-select:     @val;
+	-moz-user-select:       @val;
+	-ms-user-select:        @val;
+	user-select:            @val;
+}
+
+.word-wrap() {
+	-ms-word-break: break-all;
+	word-break: break-all;
+	word-break: break-word; /* перенос по словам в некоторых браузерах*/
+	-webkit-hyphens: auto;
+	-moz-hyphens: auto;
+	hyphens: auto;
+}
+
+// ClearFix
+.clearfix() {
+	&:before,
+	&:after {
+		content: " ";
+		display: table;
+	}
+	&:after {
+		clear: both;
+	}
+}
+
+//для поддержки IE 7
+.inline-block() { 
+	display: inline-block;
+	vertical-align: top;
+	*display: inline;
+	zoom: 1;
+}
+
+// иконочный шрифт
+.iconFont(@content, @font-family:"fontello") {
+	content: @content;
+	font-family: @font-family !important;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+	text-decoration: none !important;
+	text-transform: none;
+}
