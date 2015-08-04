@@ -6,8 +6,8 @@
 	-moz-border-radius: @radius;
 }
 
-// пример использованеия для нескольких теней .box-shadow (~"inset 0px 1px 0px red, 0px 0px 5px #aaa");
-// занчение теней переводим в строку
+// sample of using multiply shadows .box-shadow (~"inset 0px 1px 0px red, 0px 0px 5px #aaa");
+// making a string from the value of shadow
 .box-shadow (@shadow: 0 2px 1px 0 #215073) {
 	box-shadow: @arguments;
 	-moz-box-shadow: @arguments;
@@ -137,14 +137,14 @@
 	}
 }
 
-//для поддержки IE 7
+// for IE 7 support
 .inline-block() { 
 	display: inline-block;
 	*display: inline;
 	zoom: 1;
 }
 
-// иконочный шрифт
+// icon Font
 .iconFont(@content, @font-family:"fontello") {
 	content: @content;
 	font-family: @font-family !important;
@@ -153,4 +153,18 @@
 	font-weight: normal;
 	text-decoration: none !important;
 	text-transform: none;
+}
+
+// using the @switch to change color of the hover
+// @switch: light;
+// .linkHover(@switch);
+.linkHover(dark; @color:@baseLinkColor) {
+	&:hover {
+		color: darken(@color, 20%);
+	}
+}
+.linkHover(light; @color:@baseLinkColor) {
+	&:hover {
+		color: lighten(@color, 20%);
+	}
 }
