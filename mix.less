@@ -1,25 +1,8 @@
-
-// mixins
-.border-radius (@radius: 2px) {
-	border-radius: @radius;
-	-webkit-border-radius: @radius;
-	-moz-border-radius: @radius;
-}
-
-// sample of using multiply shadows .box-shadow (~"inset 0px 1px 0px red, 0px 0px 5px #aaa");
-// making a string from the value of shadow
-.box-shadow (@shadow: 0 2px 1px 0 #215073) {
-	box-shadow: @arguments;
-	-moz-box-shadow: @arguments;
-	-webkit-box-shadow: @arguments;
-}
-
 // Horizontal gradient, from left to right
 .horizontal-gradient(@start-color: #1e5799, @end-color: #4b74b0, @start-percent: 0%, @end-percent: 100%) {
 	background-color: @start-color;
 	background-image:  linear-gradient(to right, @start-color @start-percent, @end-color @end-percent);
 	background-image: -webkit-linear-gradient(left, color-stop(@start-color @start-percent), color-stop(@end-color @end-percent)); /* Chrome10+,Safari5.1+ */
-	background-image: -o-linear-gradient(top, @start-color @start-percent, @end-color @end-percent); /* Opera 11.10+ */
 	background: -ms-linear-gradient(top, @start-color @start-percent, @end-color @end-percent);
 	background-repeat: repeat-x;
 }
@@ -27,10 +10,8 @@
 // Vertical gradient, from top to bottom
 .vertical-gradient(@start-color: #1e5799, @end-color: #4b74b0, @start-percent: 0%, @end-percent: 100%) {
 	background-color: @start-color; /* Old browsers */
-	background-image: -moz-linear-gradient(top, @start-color @start-percent, @end-color @end-percent); /* FF3.6+ */
 	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(@start-percent,@start-color), color-stop(@end-percent,@end-color)); /* Chrome,Safari4+ */
 	background-image: -webkit-linear-gradient(top, @start-color @start-percent,@end-color @end-percent); /* Chrome10+,Safari5.1+ */
-	background-image: -o-linear-gradient(top, @start-color @start-percent,@end-color @end-percent); /* Opera 11.10+ */
 	background: -ms-linear-gradient(top, @start-color @start-percent,@end-color @end-percent); /* IE10+ */
 	background-image: linear-gradient(to bottom, @start-color @start-percent,@end-color @end-percent); /* W3C */
 }
@@ -45,7 +26,7 @@
 }
 
 // Placeholder
-.placeholder(@color) {
+.placeholder(@color:#b2b2b2) {
 	&:-moz-placeholder            { color: @color; } // Firefox 4-18
 	&::-moz-placeholder           { color: @color; } // Firefox 19+
 	&:-ms-input-placeholder       { color: @color; } // Internet Explorer 10+
@@ -59,20 +40,19 @@
 	box-sizing: @boxmodel;
 }
 
+// Background-size
+.background-size(@size: cover) {
+	background-size: @size;
+	-webkit-background-size: @size;
+	-o-background-size: @size;
+	-moz-background-size: @size;
+}
+
 // text columns
 .column(@count: 3, @gap: 1em) {
 	-webkit-column-count: @count; -webkit-column-gap: @gap;
 	-moz-column-count: @count;    -moz-column-gap: @gap;
 	column-count: @count;         column-gap: @gap;
-}
-
-// Opacity
-.opacity(@opacity) {
-	opacity: @opacity;
-	-moz-opacity: @opacity;
-	// IE8 filter
-	@opacity-ie: (@opacity * 100);
-	filter: ~"alpha(opacity=@{opacity-ie})";
 }
 
 // Transition
@@ -88,13 +68,6 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
-
-// text shadow
-.text-shadow(@text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75)){
-	-webkit-text-shadow: @text-shadow;
-	-moz-text-shadow: @text-shadow;
-	text-shadow: @text-shadow;
 }
 
 // transformation
@@ -119,7 +92,7 @@
 .word-wrap() {
 	-ms-word-break: break-all;
 	word-break: break-all;
-	word-break: break-word; /* перенос по словам в некоторых браузерах*/
+	word-break: break-word;
 	-webkit-hyphens: auto;
 	-moz-hyphens: auto;
 	hyphens: auto;
@@ -137,34 +110,67 @@
 	}
 }
 
-// for IE 7 support
-.inline-block() { 
-	display: inline-block;
-	*display: inline;
-	zoom: 1;
+// FlexBox mixin
+.flex-display(@display: flex) { /*flex | inline-flex;*/
+	display: ~"-webkit-@{display}";
+	display: ~"-ms-@{display}box"; // IE10 uses -ms-flexbox
+	display: @display;
 }
 
-// icon Font
-.iconFont(@content, @font-family:"fontello") {
-	content: @content;
-	font-family: @font-family !important;
-	font-style: normal;
-	font-variant: normal;
-	font-weight: normal;
-	text-decoration: none !important;
-	text-transform: none;
+.flex-direction(@direction: row) { /*row | row-reverse | column | column-reverse*/
+	-webkit-box-direction: @direction;
+	-ms-flex-direction: @direction;
+	flex-direction: @direction;
 }
 
-// using the @switch to change color of the hover
-// @switch: light;
-// .linkHover(@switch);
-.linkHover(dark; @color:@baseLinkColor) {
-	&:hover {
-		color: darken(@color, 20%);
-	}
+.flex-wrap(@wrap: nowrap) { /*nowrap | wrap | wrap-reverse */
+	-ms-flex-wrap: @wrap;
+	flex-wrap: @wrap;
 }
-.linkHover(light; @color:@baseLinkColor) {
-	&:hover {
-		color: lighten(@color, 20%);
-	}
+.flex(@columns: initial) { /* none | [ <'flex-grow'> <'flex-shrink'>? || <'flex-basis'> ] */
+	-webkit-box-flex: @columns;
+	-ms-flex: @columns;
+	flex: @columns;
+}
+.flex-flow(@flow) { /*flex-flow: <‘flex-direction’> || <‘flex-wrap’>*/
+	-ms-flex-flow: @flow;
+	flex-flow: @flow;
+}
+.justify-content(@justify: flex-start) { /*flex-start | flex-end | center | space-between | space-around*/
+	-webkit-justify-content: @justify;
+	-moz-justify-content: @justify;
+	-ms-justify-content: @justify;
+	justify-content: @justify;
+}
+.align-content(@align: stretch) { /*flex-start | flex-end | center | space-between | space-around | stretch*/
+	-ms-flex-line-pack: @align;
+	align-content: @align;
+}
+.align-items(@align: stretch) { /*flex-start | flex-end | center | baseline | stretch*/
+	-webkit-box-align: @align;
+	-ms-flex-align: @align;
+	align-items: @align;
+}
+.flex-grow(@grow: 0) { /*<number>(default 0)*/
+	-webkit-box-flex: @grow;
+	-ms-flex-positive: @grow;
+	flex-grow: @grow;
+}
+.flex-order(@order: 0) { /*<integer>*/
+	-webkit-box-ordinal-group: @order + 1;
+	-moz-order: @order;
+	-ms-flex-order: @order;
+	order: @order;
+}
+.flex-shrink(@shrink: 1) { /*<number>(default 0)*/
+	-ms-flex-negative: @shrink;
+	flex-shrink: @shrink;
+}
+.flex-basis(@width: auto) { /*<length> | auto (default auto)*/
+	ms-flex-preferred-size: @width;
+	flex-basis: @width;
+}
+.align-self(@align: auto) { /*auto | flex-start | flex-end | center | baseline | stretch*/
+	-ms-flex-item-align: @align;
+	align-self: @align;
 }
